@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <h1>Calculator</h1>
+        <div id="calc-parent">
+            <div class="row">
+                <div class="coulumn" id="calc-display-val">0 </div>
+            </div>
+            <div class="row">
+                <div class="calc-btn coulumn" id="calc-clear">CE</div>
+                <div class="calc-btn coulumn" id="calc-backspace">&#8676;</div>
+                <div class="calc-btn calc-btn-operator coulumn" id="calc-devide">&#247;</div>
+
+            </div>
+            <div class="row">
+                <div class="calc-btn calc-btn-num coulumn">7</div>
+                <div class="calc-btn calc-btn-num coulumn">8</div>
+                <div class="calc-btn calc-btn-num coulumn">9</div>
+                <div class="calc-btn calc-btn-operator coulumn" id="calc-multiply">x</div>
+            </div>
+            <div class="row">
+                <div class="calc-btn calc-btn-num coulumn">4</div>
+                <div class="calc-btn calc-btn-num coulumn">5</div>
+                <div class="calc-btn calc-btn-num coulumn">6</div>
+                <div class="calc-btn calc-btn-operator coulumn" id="calc-minus">-</div>
+            </div>
+            <div class="row">
+                <div class="calc-btn calc-btn-num coulumn">1</div>
+                <div class="calc-btn calc-btn-num coulumn">2</div>
+                <div class="calc-btn calc-btn-num coulumn">3</div>
+                <div class="calc-btn calc-btn-operator coulumn" id="calc-plus">+</div>
+            </div>
+            <div class="row">
+                <div class="calc-btn calc-btn-num coulumn" id="calc-zero">0</div>
+                <div class="calc-btn coulumn" id="calc-decimal">.</div>
+                <div class="calc-btn calc-btn-operator coulumn" id="calc-equals">=</div>
+            </div>
+        </div>
+
+        <script>
+            var tiv = document.getElementsByClassName("calc-btn-num");
+            var ket = document.getElementById("calc-decimal");
+            var maqrel = document.getElementById("calc-clear");
+            var jnjel = document.getElementById("calc-backspace");
+            var ekran = document.getElementById("calc-display-val");
+            var gorcoxutyun = document.getElementsByClassName("calc-btn-operator");
+            var ekraniArjeq=  "0";
+            var gorcoxutyanVayr= [];
+            var updateDisplayVal = function(clickObj){
+                var BtnText= clickObj.target.innerHTML;
+                if (ekraniArjeq === "0") {ekraniArjeq = "";}
+                ekraniArjeq += BtnText;
+                ekran.innerHTML = ekraniArjeq;    
+            }
+            var katarelGorcoxutyun = function(clickObj){
+                var operator= clickObj.target.innerHTML;
+                switch (operator){
+                    case "+":
+                        gorcoxutyanVayr.push(ekraniArjeq);
+                        gorcoxutyanVayr.push("+");
+                        ekraniArjeq="0";
+                        ekran.innerHTML = ekraniArjeq; 
+                        break;
+                    case "-":
+                        gorcoxutyanVayr.push(ekraniArjeq);
+                        gorcoxutyanVayr.push("-");
+                        ekraniArjeq="0";
+                        ekran.innerHTML = ekraniArjeq; 
+                        break;
+                    case "x":
+                        gorcoxutyanVayr.push(ekraniArjeq);
+                        gorcoxutyanVayr.push("*");
+                        ekraniArjeq="0";
+                        ekran.innerHTML = ekraniArjeq; 
+                        break;
+                    case "÷":
+                        gorcoxutyanVayr.push(ekraniArjeq);
+                        gorcoxutyanVayr.push("/");
+                        ekraniArjeq="0";
+                        ekran.innerHTML = ekraniArjeq; 
+                        break;
+                    case "=":
+                        gorcoxutyanVayr.push(ekraniArjeq);
+                        var arjeq = eval(gorcoxutyanVayr.join(" "));
+                        ekraniArjeq= arjeq + "";
+                        ekran.innerHTML = ekraniArjeq;
+                        gorcoxutyanVayr=[];
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            for (let i=0; i < tiv.length; i++) {
+                tiv[i].addEventListener("click", updateDisplayVal, false);
+            }
+
+            for (let i=0; i < gorcoxutyun.length; i++) {
+                gorcoxutyun[i].addEventListener("click", katarelGorcoxutyun, false);
+            }
+
+            maqrel.onclick = function(){
+                ekraniArjeq = "0";
+                gorcoxutyanVayr= [];
+                ekran.innerHTML = ekraniArjeq;
+            }
+
+            jnjel.onclick = function(){
+                ekraniArjeq = ekraniArjeq.slice( 0, ekraniArjeq.length - 1);
+
+                if (ekraniArjeq === ""){ ekraniArjeq = "0";} 
+                ekran.innerHTML = ekraniArjeq;
+            }
+
+            ket.onclick = function() {
+                if (!ekraniArjeq.includes(".")) { ekraniArjeq += ".";}
+                ekran.innerHTML = ekraniArjeq;
+            }
+        </script>
+    </body>
+</html>
